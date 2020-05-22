@@ -275,7 +275,7 @@ var words_graph_data = 0;
 {
   // let today = new Date();
   //today.setDate(today.getDate() - 2);
-  let today = new Date(2020, 5, 19);
+  let today = new Date(2020, 4, 19);
   // Flatpickerの読み込み
   let fp = flatpickr('.flatpickr', {
     defaultDate: today,
