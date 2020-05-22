@@ -1,0 +1,144 @@
+*{
+  font-family: 'Noto Sans JP', "Healvetica",'Hiragino Sans','ヒラギノ角ゴシック',YuGothic,'Yu Gothic','メイリオ', Meiryo,'ＭＳ Ｐゴシック','MS PGothic',sans-serif;
+}
+
+body{
+  background-color: rgb(248, 250, 251);
+}
+
+.uk-logo, nav a, .font, .flatpickr, .flatpickr-day, .flatpickr-weekday, .uk-tab-right a, .uk-tab a, th, .uk-pagination a, .mpage, .dwaswicher > li > a, h2{
+  font-family: 'Jost', 'Noto Sans JP', sans-serif;
+}
+
+h1, th{
+  font-weight: 600;
+  font-size: 0.8em;
+}
+
+.uk-article-meta{
+  margin-bottom: 0.2em;
+}
+
+.uk-sticky{
+  background: #FFFFFF;
+  border-bottom: 1px solid #EAF1F5;
+}
+
+.uk-card{
+  border-radius: 7px;
+}
+
+.mpage, .dropdown_description, .uk-pagination a, td, .size{
+  font-size: 0.8em;
+}
+
+canvas{
+  width: 100%;
+}
+
+.dwaswicher a{
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.white{
+  color: #FFF;
+}
+
+.uk-light a{
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.uk-light a:hover{
+  color: rgba(255, 255, 255, 0.8);
+  cursor: default;
+}
+
+/* ColorPanel */
+.cp1{
+    background: linear-gradient(135deg, #6096FD, #FB7B8E);
+}
+.cp2{
+    background: linear-gradient(135deg, #AAB6FB, #6096FD);
+}
+.cp3{
+    background: linear-gradient(135deg, #FAA7B8, #FB7B8E);
+}
+
+.bcw{
+  background-color: #FFF;
+}
+
+/* Swicher */
+.sidenav{
+  background: #FFFFFF;
+}
+
+.uk-tab-right{
+  border-right: 1px solid #EAF1F5;
+}
+
+.uk-tab > .uk-active > a{
+  border-bottom: 1px solid #FB7B8E;
+  color: #FB7B8E;
+}
+
+.uk-tab-right > .uk-active > a{
+  border-bottom: none;
+  border-left: 5px solid #FB7B8E;
+  color: #FB7B8E;
+}
+
+.uk-tab > li > a{
+  padding: 0.5em 2em;
+}
+
+.dwaswicher{
+  margin: 0px;
+}
+
+.dwaswicher > li > a{
+  padding-left: 0em;
+  padding-right: 0em;
+}
+
+.dwaswicher > li{
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+}
+
+
+.uk-tab-right > li > a{
+  padding: 1em 4em 1em 1.2em;
+}
+
+/* Flatpickr */
+input[type="text"]{
+  font-size: 0.8em;
+  letter-spacing: 0.2em;
+}
+
+input[type="text"]:focus {
+  border: 1px solid #FB7B8E;
+  outline: 0;
+}
+
+.flatpickr{
+  text-align: right;
+  border-radius: 7px;
+}
+
+.flatpickr-day.selected{
+  background-color: #FB7B8E;
+  border-color: #FB7B8E;
+}
+
+.flatpickr-day.selected:hover{
+  background-color: #FB7B8E;
+  border-color: #FB7B8E;
+}
+
+/* twitter */
+blockquote.twitter-tweet, blockquote.twitter-tweet p, blockquote.twitter-tweet a{
+  font-size: 0.8em;
+}
