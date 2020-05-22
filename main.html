@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="ja" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <!-- UIkit CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.3.6/dist/css/uikit.min.css" />
+
+    <!-- UIkit JS -->
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.3.6/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.3.6/dist/js/uikit-icons.min.js"></script>
+
+    <!-- Chart.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" charset="utf-8"></script>
+
+    <!-- Flatpicker -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Jost&family=Noto+Sans+JP&display=swap" rel="stylesheet">
+
+    <!-- Jquery -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-color/2.1.2/jquery.color.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-scrollify@1/jquery.scrollify.min.js"></script>
+
+    <title>CV19M</title>
+  </head>
+  <body>
+    <!-- Nav -->
+    <div uk-sticky="show-on-up: true; animation: uk-animation-slide-top; sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky; bottom: #scrollup-dropbar" class="uk-sticky uk-sticky-below uk-sticky-fixed">
+      <nav class="uk-container uk-container-expand uk-navbar uk-navbar-sticky">
+        <!-- navContents -->
+        <div class="uk-navbar-left">
+          <a href="#" class="uk-navbar-item uk-logo">CV19M</a>
+          <ul class="uk-navbar-nav">
+            <li><a href="#readme" uk-toggle>READ ME</a></li>
+          </ul>
+        </div>
+        <div class="uk-navbar-right uk-margin-small-top uk-margin-small-bottom">
+          <div class="uk-inline">
+            <span class="uk-form-icon" uk-icon="icon: calendar"></span>
+            <input class="uk-input flatpickr" type="text" placeholder="Input" readonly="readonly">
+          </div>
+        </div>
+      </nav>
+    </div>
+
+    <!-- Contents -->
+    <div uk-grid>
+      <!-- sideNav -->
+      <div class="uk-width-auto@m sidenav">
+        <ul class='uk-tab-right uk-flex-center' uk-tab="connect: #main; animation: uk-animation-fade">
+          <li class="uk-active uk-margin-top"><a href="#">
+            <span uk-icon="home"></span>
+            <span class="uk-margin-small-left uk-text-middle font">HOME</span>
+          </a></li>
+          <li><a href="#">
+            <span uk-icon="pencil"></span>
+            <span class="uk-margin-small-left uk-text-middle font">WORDS</span>
+          </a></li>
+          <li><a href="#">
+            <span uk-icon="tag"></span>
+            <span class="uk-margin-small-left uk-text-middle font">ENTITIES</span>
+          </a></li>
+        </ul>
+      </div>
+      <!-- Contentes -->
+      <div class="uk-width-expand@m uk-container uk-container-expand uk-margin-top uk-margin-bottom">
+        <ul id="main" class="uk-switcher">
+          <!-- HOME -->
+          <li class="main_tab">
+            <div class="uk-flex uk-flex-wrap uk-flex-wrap-around">
+              <!-- OVERVIEW -->
+              <div class="uk-width-1-1 uk-card uk-card-default uk-card-body">
+                <!-- top -->
+                <div class="uk-flex uk-flex-between  uk-flex-top">
+                  <h1 class="font">OVERVIEW</h1>
+                  <div class="uk-flex uk-flex-right uk-flex-top uk-text-top">
+                    <div class="uk-text-muted font size uk-margin-small-right">
+                      ACQUISITION DATE(DAILY): <span class='acqdate'>集計中</span>
+                    </div>
+                    <div class="uk-flex">
+                      <span class="ico" uk-icon="icon: question; ratio: 0.8;"></span>
+                      <div class="dropdown_description" uk-dropdown="pos: top-left">
+                        ツイート及び感染者数の推移
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- bottom -->
+                <div class="" uk-grid>
+                  <div class="uk-width-1-4  uk-flex uk-flex-column uk-flex-between">
+                    <article class="uk-article CVTgraph_pn uk-margin-small-top uk-margin-medium-bottom">
+                      <p class="uk-article-meta">感染者数（日／週）</p>
+                      <p class="uk-text-lead font uk-margin-remove-top">集計中 / 集計中</p>
+                      <p class="uk-article-meta">ツイート数（日／週）</p>
+                      <p class="uk-text-lead font uk-margin-remove-top">集計中 / 集計中</p>
+                    </article>
+                    <!-- 凡例 -->
+                    <div class="">
+                      <div class="font size">
+                        <span style="color: rgb(227, 227, 227)">■</span> INFECTED
+                      </div>
+                      <div class="font size">
+                        <span style="color: #FB7B8E">■</span> INFECTED(SELECTED DATE)
+                      </div>
+                      <div class="font size">
+                        <span style="color: #AAB6FB">■</span> TWEET
+                      </div>
+                    </div>
+                  </div>
+                  <div class="uk-width-3-4">
+                    <canvas id="CVTgraph_cv" width="1920" height="1000"></canvas>
+                  </div>
+                </div>
+              </div>
+              <!-- under -->
+              <div class="uk-width-1-1 uk-margin-top" >
+                <div class="uk-child-width-1-3@m uk-child-width-1-2@s" uk-grid>
+                  <!-- INFECTED -->
+                  <div class="">
+                    <div class="uk-card uk-card-default uk-card-body uk-light cp1" style='height:100%;'>
+                      <!-- top -->
+                      <div class="uk-flex uk-flex-between">
+                        <h1 class="font">INFECTED</h1>
+                        <div class="uk-flex">
+                          <span class="ico" uk-icon="icon: question; ratio: 0.8;"></span>
+                          <div class="dropdown_description" uk-dropdown="pos: top-left">
+                            当該期間での感染者数
+                          </div>
+                        </div>
+                      </div>
+                      <div class="uk-flex uk-flex-between uk-flex-middle">
+                        <a uk-icon="icon: user; ratio: 2.5"></a>
+                        <article class="uk-article uk-text-right Adata">
+                          <p class="uk-text-lead font uk-margin-remove" style="color: #FFF;">集計中</p>
+                          <p class="uk-article-meta uk-margin-remove font" style="color: #FFF;">0000-00-00~0000-00-00</p>
+                        </article>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- TWEET -->
+                  <div class="">
+                    <div class="uk-card uk-card-default uk-card-body uk-light cp2" style='height:100%;'>
+                      <!-- top -->
+                      <div class="uk-flex uk-flex-between">
+                        <h1 class="font">TWEET</h1>
+                        <div class="uk-flex">
+                          <span class="ico" uk-icon="icon: question; ratio: 0.8;"></span>
+                          <div class="dropdown_description" uk-dropdown="pos: top-left">
+                            当該期間での『コロナ』を使用したツイート数
+                          </div>
+                        </div>
+                      </div>
+                      <div class="uk-flex uk-flex-between uk-flex-middle">
+                        <a uk-icon="icon: twitter; ratio: 2.5"></a>
+                        <article class="uk-article uk-text-right Adata">
+                          <p class="uk-text-lead font uk-margin-remove" style="color: #FFF;">集計中</p>
+                          <p class="uk-article-meta uk-margin-remove font" style="color: #FFF;">0000-00-00~0000-00-00</p>
+                        </article>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- VOCAB -->
+                  <div class="">
+                    <div class="uk-card uk-card-default uk-card-body uk-light cp3" style='height:100%;'>
+                      <!-- top -->
+                      <div class="uk-flex uk-flex-between">
+                        <h1 class="font">VOCABULARY</h1>
+                        <div class="uk-flex">
+                          <span class="ico" uk-icon="icon: question; ratio: 0.8;"></span>
+                          <div class="dropdown_description" uk-dropdown="pos: top-left">
+                            当該期間での『コロナ』を使用したツイートで使用された単語の種類数
+                          </div>
+                        </div>
+                      </div>
+                      <div class="uk-flex uk-flex-between uk-flex-middle">
+                        <a uk-icon="icon: pencil; ratio: 2.5"></a>
+                        <article class="uk-article uk-text-right Adata">
+                          <p class="uk-text-lead font uk-margin-remove" style="color: #FFF;">集計中</p>
+                          <p class="uk-article-meta uk-margin-remove font" style="color: #FFF;">0000-00-00~0000-00-00</p>
+                        </article>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <!-- WORDS -->
+          <li class="main_tab">
+            <div class="uk-flex uk-flex-wrap uk-flex-wrap-around">
+              <!-- WORDS -->
+              <div class="uk-width-3-4 uk-card uk-card-default uk-card-body dwacontroll">
+                <!-- top -->
+                <div class="uk-flex uk-flex-between">
+                  <h1 class="font">WORDS</h1>
+                  <div class="uk-flex">
+                    <span class="ico" uk-icon="icon: question; ratio: 0.8;"></span>
+                    <div class="dropdown_description" uk-dropdown="pos: top-left">
+                      ツイート数、及びツイートで使用された単語数とその種類数
+                    </div>
+                  </div>
+                </div>
+                <!-- bottom -->
+                <div class="" uk-grid>
+                  <div class="uk-width-1-3 uk-flex uk-flex-column uk-flex-between uk-height-1-1">
+                    <ul class="uk-flex-left dwaswicher uk-subnav uk-margin-small-right">
+                      <li class="uk-padding-remove-left"><a class="uk-active" href="#">DAILY</a></li>
+                      <li><a href="#">WEEKLY</a></li>
+                      <li><a href="#">ALL</a></li>
+                    </ul>
+                    <!-- bottom -->
+                    <ul class="dwatab uk-switcher uk-margin-small-top uk-margin-medium-bottom">
+                      <li>
+                        <article class="uk-article words_pn">
+                          <p class="uk-article-meta">総抽出語数</p>
+                          <p class="uk-text-lead font uk-margin-remove-top">集計中</p>
+                          <p class="uk-article-meta">異なり語数</p>
+                          <p class="uk-text-lead font uk-margin-remove-top">集計中</p>
+                        </article>
+                      </li>
+                      <li>
+                        <article class="uk-article words_pn">
+                          <p class="uk-article-meta">総抽出語数</p>
+                          <p class="uk-text-lead font uk-margin-remove-top">集計中</p>
+                          <p class="uk-article-meta">異なり語数</p>
+                          <p class="uk-text-lead font uk-margin-remove-top">集計中</p>
+                        </article>
+                      </li>
+                      <li>
+                        <article class="uk-article words_pn">
+                          <p class="uk-article-meta">総抽出語数</p>
+                          <p class="uk-text-lead font uk-margin-remove-top">集計中</p>
+                          <p class="uk-article-meta">異なり語数</p>
+                          <p class="uk-text-lead font uk-margin-remove-top">集計中</p>
+                        </article>
+                      </li>
+                    </ul>
+                    <!-- 凡例 -->
+                    <div class="">
+                      <div class="font size">
+                        <span style="color: rgb(227, 227, 227)">■</span> TWEET
+                      </div>
+                      <div class="font size">
+                        <span style="color: #FB7B8E">■</span> WORDS
+                      </div>
+                      <div class="font size">
+                        <span style="color: #AAB6FB">■</span> UNIQUE RATIO
+                      </div>
+                    </div>
+                  </div>
+                  <div class="uk-width-2-3 uk-flex uk-flex-column uk-flex-center canvas_controll">
+                    <canvas id="words_cv" width="1920px" height="1400px"></canvas>
+                  </div>
+                </div>
+              </div>
+              <!-- PN -->
+              <div class="uk-width-expand uk-card uk-card-default uk-card-body uk-margin-left dwacontroll uk-flex uk-flex-column uk-flex-between">
+                <!-- top -->
+                <div class="uk-flex uk-flex-between">
+                  <h1 class="font">POSI-NEGA</h1>
+                  <div class="uk-flex">
+                    <span class="ico" uk-icon="icon: question; ratio: 0.8;"></span>
+                    <div class="dropdown_description" uk-dropdown="pos: top-left">
+                      当該期間でのツイートで使用された単語のうち、ポジティブ、ネガティブ、ニュートラルが付与された単語の出現数及びその比率
+                    </div>
+                  </div>
+                </div>
+                <ul class="uk-flex-center dwaswicher uk-subnav uk-margin-small-right">
+                  <li><a class="uk-active" href="#">DAILY</a></li>
+                  <li><a href="#">WEEKLY</a></li>
+                  <li><a href="#">ALL</a></li>
+                </ul>
+                <!-- bottom -->
+                <ul class="dwatab uk-switcher uk-margin-small-top uk-margin-small-bottom">
+                  <li>
+                    <canvas class="PN_cv" width="600" height="600"></canvas>
+                  </li>
+                  <li>
+                    <canvas class="PN_cv" width="600" height="600"></canvas>
+                  </li>
+                  <li>
+                    <canvas class="PN_cv" width="600" height="600"></canvas>
+                  </li>
+                </ul>
+                <div class="uk-child-width-1-1" uk-grid>
+                  <div class="uk-flex uk-flex-between">
+                    <div class="font size">
+                      <span style="color: #FB7B8E">■</span> POSI
+                    </div>
+                    <div class="font size">
+                      <span style="color: #FDC094">■</span> NEU
+                    </div>
+                    <div class="font size">
+                      <span style="color: #6096FD">■</span> NEGA
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- COUNT -->
+              <div class="uk-width-1-1 uk-card uk-card-default uk-margin-top uk-card-body" id="count">
+                <!-- top -->
+                <div class="uk-flex uk-flex-between">
+                  <h1 class="font" style="">COUNT</h1>
+                  <div class="uk-flex">
+                    <span class="ico" uk-icon="icon: question; ratio: 0.8;"></span>
+                    <div class="dropdown_description" uk-dropdown="pos: top-left">
+                      当該期間での単語出現数の集計
+                    </div>
+                  </div>
+                </div>
+                <!-- bottom -->
+                <div class="uk-width-1-1">
+                  <ul class="uk-pagination uk-flex-center" id="count_host_controller">
+                    <li><a href="#count"><span class='prev' uk-pagination-previous></span></a></li>
+                    <li class="uk-active"><a href="#count">1</a></li>
+                    <li><a href="#count">2</a></li>
+                    <li><a href="#count">3</a></li>
+                    <li><a href="#count">4</a></li>
+                    <li><a href="#count">5</a></li>
+                    <li><a href="#count">6</a></li>
+                    <li><a href="#count">7</a></li>
+                    <li><a href="#count">8</a></li>
+                    <li><a href="#count">9</a></li>
+                    <li><a href="#count">10</a></li>
+                    <li><a href="#count"><span class='next' uk-pagination-next></span></a></li>
+                  </ul>
+                  <!-- Table -->
+                  <div class="uk-child-width-1-3@m uk-child-width-1-2@s" uk-grid>
+                    <!-- DAY -->
+                    <div class="uk-flex uk-flex-column uk-flex-between">
+                      <div class="">
+                        <h1 class="font uk-text-center">DAILY</h1>
+                        <table class="uk-table uk-table-divider uk-table-small">
+                          <thead>
+                            <tr>
+                              <th></th>
+                              <th>WORD</th>
+                              <th>CLASS</th>
+                              <th>COUNT</th>
+                            </tr>
+                          </thead>
+                          <tbody class='wt'>
+                          </tbody>
+                        </table>
+                      </div>
+
+                      <ul class="uk-pagination uk-flex uk-flex-between">
+                        <li><a href="#count"><span class="uk-margin-small-right mprev" uk-pagination-previous></span></a></li>
+                        <li class="mpage"></li>
+                        <li class=""><a href="#count"><span class="uk-margin-small-left mnext" uk-pagination-next></span></a></li>
+                      </ul>
+                    </div>
+                    <!-- WEEK -->
+                    <div class="uk-flex uk-flex-column uk-flex-between">
+                      <div class="">
+                        <h1 class="font uk-text-center">WEEKLY</h1>
+                        <table class="uk-table uk-table-divider uk-table-small">
+                          <thead>
+                            <tr>
+                              <th></th>
+                              <th>WORD</th>
+                              <th>CLASS</th>
+                              <th>COUNT</th>
+                            </tr>
+                          </thead>
+                          <tbody class='wt'>
+
+                          </tbody>
+                        </table>
+                      </div>
+
+                      <ul class="uk-pagination uk-flex uk-flex-between">
+                        <li><a href="#count"><span class="uk-margin-small-right mprev" uk-pagination-previous></span></a></li>
+                        <li class="mpage"></li>
+                        <li class=""><a href="#count"><span class="uk-margin-small-left mnext" uk-pagination-next></span></a></li>
+                      </ul>
+                    </div>
+                    <!-- ALL -->
+                    <div class="uk-flex uk-flex-column uk-flex-between">
+                      <div class="">
+                        <h1 class="font uk-text-center">ALL</h1>
+                        <table class="uk-table uk-table-divider uk-table-small">
+                          <thead>
+                            <tr>
+                              <th></th>
+                              <th>WORD</th>
+                              <th>CLASS</th>
+                              <th>COUNT</th>
+                            </tr>
+                          </thead>
+                          <tbody class='wt'>
+
+                          </tbody>
+                        </table>
+                      </div>
+
+                      <ul class="uk-pagination  uk-flex uk-flex-between">
+                        <li><a href="#count"><span class="uk-margin-small-right mprev" uk-pagination-previous></span></a></li>
+                        <li class="mpage"></li>
+                        <li class=""><a href="#count"><span class="uk-margin-small-left mnext" uk-pagination-next></span></a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+              <!-- row3 -->
+              <div class="uk-width-1-1 uk-margin-top">
+                <div class="uk-child-width-1-2@s uk-text-center" uk-grid>
+                  <!-- W2V -->
+                  <div class="">
+                    <div class="uk-card-default uk-card-body dwacontroll" style=''>
+                      <!-- top -->
+                      <div class="uk-flex uk-flex-between uk-flex-top">
+                        <h1 class="font">WORD2VEC</h1>
+                        <div class="uk-flex uk-flex-right uk-flex-top">
+                          <ul class="uk-flex-center dwaswicher uk-subnav uk-margin-small-right">
+                            <li><a class="uk-active" href="#">DAILY</a></li>
+                            <li><a href="#">WEEKLY</a></li>
+                            <li><a href="#">ALL</a></li>
+                          </ul>
+                          <div class="uk-flex">
+                            <span class="ico" uk-icon="icon: question; ratio: 0.8;"></span>
+                            <div class="dropdown_description" uk-dropdown="pos: top-left">
+                              当該期間での出現上位100単語のw2vプロット<br />
+                              （学習時の単語切り捨て閾値は集計単位でのツイート数*0.01ないし上位101番目の出現数の低い方を採用）
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- Bottom -->
+                      <ul class="dwatab uk-switcher">
+                        <li>
+                          <canvas class='w2v_cv' width="600" height="600"></canvas>
+                        </li>
+                        <li>
+                          <canvas class='w2v_cv' width="600" height="600"></canvas>
+                        </li>
+                        <li>
+                          <canvas class='w2v_cv' width="600" height="600"></canvas>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <!-- WC -->
+                  <div class="">
+                    <div class="uk-card uk-card-default uk-card-body dwacontroll" style='height:100%;'>
+                      <!-- top -->
+                      <div class="uk-flex uk-flex-between uk-flex-top">
+                        <h1 class="font">WORDCLOUD</h1>
+                        <div class="uk-flex uk-flex-right uk-flex-top">
+                          <ul class="uk-flex-center dwaswicher uk-subnav uk-margin-small-right">
+                            <li><a class="uk-active" href="#">DAILY</a></li>
+                            <li><a href="#">WEEKLY</a></li>
+                            <li><a href="#">ALL</a></li>
+                          </ul>
+                          <div class="uk-flex">
+                            <span class="ico" uk-icon="icon: question; ratio: 0.8;"></span>
+                            <div class="dropdown_description" uk-dropdown="pos: top-left">
+                              当該期間での出現数が多い順に上限3000語で作成したワードクラウド
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- Bottom -->
+                      <ul class="dwatab uk-switcher">
+                        <li>
+                          <div class="wc" uk-lightbox>
+                            <a class="uk-inline" href="" data-caption="DAILY">
+                              <img data-src="" alt="" uk-class="" uk-img>
+                            </a>
+                          </div>
+                        </li>
+                        <li>
+                          <div class="wc" uk-lightbox>
+                            <a class="uk-inline" href="" data-caption="DAILY">
+                              <img data-src="" alt="" uk-class="" uk-img>
+                            </a>
+                          </div>
+                        </li>
+                        <li>
+                          <div class="wc" uk-lightbox>
+                            <a class="uk-inline" href="" data-caption="DAILY">
+                              <img data-src="" alt="" uk-class="" uk-img>
+                            </a>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <!-- ENTITIES -->
+          <li class="main_tab">
+            <div class="uk-flex uk-flex-wrap uk-flex-wrap-around">
+              <!-- TREND -->
+              <div class="uk-width-1-1 uk-card uk-card-default uk-card-body dwacontroll">
+                <!-- top -->
+                <div class="uk-flex uk-flex-between uk-flex-top">
+                  <h1 class="font">TREND</h1>
+                  <div class="uk-flex uk-flex-right uk-flex-top">
+                    <ul class="uk-flex-center dwaswicher uk-subnav uk-margin-small-right">
+                      <li><a class="uk-active" href="#">DAILY</a></li>
+                      <li><a href="#">WEEKLY</a></li>
+                      <li><a href="#">ALL</a></li>
+                    </ul>
+                    <div class="uk-flex">
+                      <span class="ico" uk-icon="icon: question; ratio: 0.8;"></span>
+                      <div class="dropdown_description" uk-dropdown="pos: top-left">
+                        当該期間でのRT数上位10ツイート
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Bottom -->
+                <ul class="dwatab uk-switcher">
+                  <li>
+                    <div class="uk-child-width-1-2@s uk-child-width-1-3@m trend" uk-grid="masonry: true">
+                      <!-- divで囲んでJSONの中身を代入 -->
+                    </div>
+                  </li>
+                  <li>
+                    <div class="uk-child-width-1-2@s uk-child-width-1-3@m trend" uk-grid="masonry: true">
+                      <!-- divで囲んでJSONの中身を代入 -->
+                    </div>
+                  </li>
+                  <li>
+                    <div class="uk-child-width-1-2@s uk-child-width-1-3@m trend" uk-grid="masonry: true">
+                      <!-- divで囲んでJSONの中身を代入 -->
+                    </div>
+                  </li>
+                </ul>
+                <!-- bottom -->
+              </div>
+              <!-- UNDER -->
+              <div class="uk-width-1-1 uk-margin-top">
+                <div class="uk-child-width-1-2@s uk-text-center" uk-grid>
+                  <!-- URL -->
+                  <div class="">
+                    <div class="uk-card uk-card-default uk-card-body dwacontroll">
+                      <!-- top -->
+                      <div class="uk-flex uk-flex-between uk-flex-top">
+                        <h1 class="font">URL</h1>
+                        <div class="uk-flex uk-flex-right uk-flex-top">
+                          <ul class="uk-flex-center dwaswicher uk-subnav uk-margin-small-right">
+                            <li><a class="uk-active" href="#">DAILY</a></li>
+                            <li><a href="#">WEEKLY</a></li>
+                            <li><a href="#">ALL</a></li>
+                          </ul>
+                          <div class="uk-flex">
+                            <span class="ico" uk-icon="icon: question; ratio: 0.8;"></span>
+                            <div class="dropdown_description" uk-dropdown="pos: top-left">
+                              当該期間でのツイートに含まれるURLのドメインの出現数順、及びURLを含んだツイートの発信元の認証済み割合
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- Bottom -->
+                      <ul class="dwatab uk-switcher">
+                        <li>
+                          <table class="uk-table uk-table-divider uk-table-small">
+                            <thead>
+                              <tr>
+                                <th>ORDER</th>
+                                <th>URL</th>
+                                <th>COUNT</th>
+                                <th>VERTIFIED</th>
+                              </tr>
+                            </thead>
+                            <tbody class='url'>
+
+                            </tbody>
+                          </table>
+                        </li>
+                        <li>
+                          <table class="uk-table uk-table-divider uk-table-small">
+                            <thead>
+                              <tr>
+                                <th>ORDER</th>
+                                <th>URL</th>
+                                <th>COUNT</th>
+                                <th>VERTIFIED</th>
+                              </tr>
+                            </thead>
+                            <tbody class='url'>
+
+                            </tbody>
+                          </table>
+                        </li>
+                        <li>
+                          <table class="uk-table uk-table-divider uk-table-small">
+                            <thead>
+                              <tr>
+                                <th>ORDER</th>
+                                <th>URL</th>
+                                <th>COUNT</th>
+                                <th>VERTIFIED</th>
+                              </tr>
+                            </thead>
+                            <tbody class='url'>
+
+                            </tbody>
+                          </table>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <!-- HASHTAG -->
+                  <div class="">
+                    <div class="uk-card uk-card-default uk-card-body dwacontroll">
+                      <!-- top -->
+                      <div class="uk-flex uk-flex-between uk-flex-top">
+                        <h1 class="font">HASHITAG</h1>
+                        <div class="uk-flex uk-flex-right uk-flex-top">
+                          <ul class="uk-flex-center dwaswicher uk-subnav uk-margin-small-right">
+                            <li><a class="uk-active" href="#">DAILY</a></li>
+                            <li><a href="#">WEEKLY</a></li>
+                            <li><a href="#">ALL</a></li>
+                          </ul>
+                          <div class="uk-flex">
+                            <span class="ico" uk-icon="icon: question; ratio: 0.8;"></span>
+                            <div class="dropdown_description" uk-dropdown="pos: top-left">
+                              当該期間でのツイートに含まれるハッシュタグの出現数順、及びハッシュタグを含んだツイートの発信元の認証済み割合
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- Bottom -->
+                      <ul class="dwatab uk-switcher">
+                        <li>
+                          <table class="uk-table uk-table-divider uk-table-small">
+                            <thead>
+                              <tr>
+                                <th>ORDER</th>
+                                <th>HASHTAG</th>
+                                <th>COUNT</th>
+                                <th>VERTIFIED</th>
+                              </tr>
+                            </thead>
+                            <tbody class='hash'>
+
+                            </tbody>
+                          </table>
+                        </li>
+                        <li>
+                          <table class="uk-table uk-table-divider uk-table-small">
+                            <thead>
+                              <tr>
+                                <th>ORDER</th>
+                                <th>HASHTAG</th>
+                                <th>COUNT</th>
+                                <th>VERTIFIED</th>
+                              </tr>
+                            </thead>
+                            <tbody class='hash'>
+
+                            </tbody>
+                          </table>
+                        </li>
+                        <li>
+                          <table class="uk-table uk-table-divider uk-table-small">
+                            <thead>
+                              <tr>
+                                <th>ORDER</th>
+                                <th>HASHTAG</th>
+                                <th>COUNT</th>
+                                <th>VERTIFIED</th>
+                              </tr>
+                            </thead>
+                            <tbody class='hash'>
+
+                            </tbody>
+                          </table>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- modal -->
+    <div id="readme" class="uk-flex-top uk-modal-container" uk-modal>
+      <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+        <button class="uk-modal-close-default" type="button" uk-close></button>
+        <div class="uk-modal-header">
+            <h2 class="uk-modal-title" style="font-size:1.2em; font-weight: 400;">READ ME</h2>
+        </div>
+        <div class="uk-modal-body uk-flex uk-flex-center uk-flex-column">
+          <div class="uk-margin-medium-bottom">
+            <p class="uk-text-center"><span uk-icon="icon: warning"></span>　このページ（CV19M）は、新型コロナウイルス（COVID-19）の「医学的情報」及び「正確な情報」を取り扱うものではありません</p>
+            <p class="uk-text-center"><span uk-icon="icon: warning"></span>　メモリ・時間上の制約があるため、「コロナ」を含むツイートのうち、収集時点でRT及びいいねが10以上のツイートを分析に使用しています</p>
+            <p class="uk-text-center">
+              <div class="uk-flex uk-flex-center uk-flex-middle">
+                <div uk-icon="icon: warning">
+
+                </div>
+                <div class="">
+                  　
+                </div>
+                <div class="">
+                  当サイトでは分析・改善のためGoogle, Inc.のGoogle Analyticsを使用しています<br />このGoogle AnalyticsはCookieを使用しますが、データは匿名で収集されるため、個人を特定するものではありません<br />ブラウザのCookieを無効にすることで、これを拒否することが出来ます<br />
+                  詳しい規約については
+                  <a href="https://marketingplatform.google.com/about/analytics/terms/jp/" class="uk-link-muted">Google アナリティクス利用規約</a>や<a href="https://policies.google.com/technologies/ads?hl=ja" class="uk-link-muted">	Googleポリシーと規約ページ</a>をご確認ください
+                </div>
+              </div>
+            </p>
+          </div>
+
+          <div class="uk-child-width-1-2" uk-grid>
+            <div class="">
+              <h3 class="font size">ATENTION</h3>
+              <p class="size">
+                当サイトを通じて発生した損害等について、一切の責任を負いかねます<br />
+                不具合等ありましたら「@stsion3141」までお願いいたします
+              </p>
+              <h3 class="font size">ABOUT CV19M（COVID-19 as a Meme）</h3>
+              <p class="size">
+                　COVID-19が日本で周知され始めた1月末から大凡2ヶ月後の2020年3月下旬、日本の新型コロナウイルス状況が、「NY州の2週間前」なのではないかということが言われるようになりました。とはいえ、NY州は日本から遠く、そうと言われたところで若干他人事、という雰囲気も、残念ながらあったかのではないかとも思います。而して4月初旬、多くの人に知られたスターの死というかたちで、日本は改めて、COVID-19という脅威に直面することとなりました。<br />
+                　2週間後がどうなるのか。もしかしたらNY州のようになるかも知れないし、或いは耐えるのかも知れない。而して、この間に一体何が社会で起こっていたのかについて記録を取ることにはどこか一定の価値がある。トイレットペーパーのデマが結局真実になり、嘘か本当かも分からない情報がどこからでも流れてくる上に、人とも話せず何を信じたらいいのかも皆目検討がつかない世界情勢となった今だからこそ、医学的情報は餅は餅屋として、私は特にこの「情報」そのもの、言うならば「コロナ」という「ミーム」について、記録を取ろうと考えるに至りました。<br />
+                　そして、その情報の最前線となっている現場の一つが、ツイッターです。ツイッターという場所では個人が自由に様々なことを発信することが出来、そしてその結果、玉石混交な情報や感情的発信で溢れかえっています。また、それに対し、一種の共感を測ることの出来るRTやいいねという機能も存在します。そしてそれを利用すれば、共感される情報としてのCOVID-19の姿をデータから描き出せるのではないか。そしてそこから、「感染症」というある種平等で全世界的、その上新しく発生した恐らく最大の「ミーム」を考えることが出来るのではないか。このサイトはそのような考えのもとで収集したツイートデータの分析結果を残しておくために作成したものです。今後の状況がどうなるかもわからず、この分析が前述用途以外の何かの役に立つかと聞かれると疑問ではありますが、訪問してくださった誰かの何かの一助になるのであれば幸いです。
+              </p>
+              <p class="uk-text-meta size uk-text-right">2020-05-21 @stsion3141</p>
+            </div>
+            <div class="">
+              <h3 class="font size">REFERENCES</h3>
+              <p class="size">
+                Twitter API：<br />
+                <a href="https://developer.twitter.com/ja" class="uk-link-muted">Twitter Developer Platform — Twitter Developers</a><br /><br />
+                形態素解析：<br />
+                <a href="http://nlp.ist.i.kyoto-u.ac.jp/index.php?JUMAN++" class="uk-link-muted">形態素解析システムJUMAN++ - 黒橋・河原研究室 - 京都大学</a><br /><br />
+                ポジティブ - ネガティブ判定：<br />
+                <a href="http://www.cl.ecei.tohoku.ac.jp/index.php?Open%20Resources%2FJapanese%20Sentiment%20Polarity%20Dictionary" class="uk-link-muted">日本語評価極性辞書 - Open Resources/Japanese Sentiment Polarity Dictionary - 東北大学 乾・鈴木研究室</a><br /><br />
+                感染者数データ：<br />
+                <a href="https://github.com/kaz-ogiwara/covid19/" class="uk-link-muted">新型コロナウイルス 国内感染の状況 - 東洋経済オンライン</a><br /><br />
+                wordcloud：<br />
+                <a href="https://github.com/amueller/word_cloud" class="uk-link-muted">amueller/word_cloud: A little word cloud generator in Python</a><br /><br />
+                word2vec - gensim：<br />
+                <a href="https://radimrehurek.com/gensim/" class="uk-link-muted">gensim: Topic modelling for humans - Radim Řehůřek</a><br /><br />
+                グラフ表示：<br />
+                <a href="https://www.chartjs.org/" class="uk-link-muted">Chart.js | Open source HTML5 Charts for your website</a><br /><br />
+                UI：<br />
+                <a href="https://getuikit.com/" class="uk-link-muted">UIkit</a><br /><br />
+              </p>
+              <h3 class="font size">更新履歴・ソースコード：<a href="#" class="uk-link-muted">GitHub</a></h3>
+            </div>
+          </div>
+        </div>
+        <div class="uk-modal-footer"></div>
+      </div>
+    </div>
+
+    <!-- Source -->
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/main.css">
+    <!-- JS -->
+    <script src="js/main.js" charset="utf-8"></script>
+  </body>
+</html>
