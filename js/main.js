@@ -22,12 +22,6 @@ var words_graph_data = 0;
     let words_cv = document.getElementById("words_cv").getContext("2d");
     // label
     data['words']['words']['words_cv']["options"]['tooltips']['callbacks']['label'] = function(tooltipItems, data){
-      // if(tooltipItems.datasetIndex == 3){
-      //   return "異なり語数: " + data.datasets[2]['data'][tooltipItems.index] + " / " + Math.round(data.datasets[tooltipItems.datasetIndex]['data'][tooltipItems.index] * 100) / 100 +"%";
-      // }else{
-      //   let label = ["感染者数", "総出現語数"];
-      //   return label[tooltipItems.datasetIndex] + ": " + data.datasets[tooltipItems.datasetIndex]['data'][tooltipItems.index];
-      // };
       return [
         "感染者数: " + data.datasets[0]['data'][tooltipItems.index],
         "総出現語数: " + data.datasets[1]['data'][tooltipItems.index],
@@ -48,9 +42,6 @@ var words_graph_data = 0;
       data['words']['words']['words_cv']['data']['datasets'][0]['backgroundColor'] = 'rgb(227, 227, 227)';
       data['words']['words']['words_cv']['data']['datasets'][0]['yAxisID'] = "y_3";
       data['words']['words']['words_cv']['data']['datasets'][2]['yAxisID'] = "y_2";
-      // data['words']['words']['words_cv']['data']['datasets'][2]['borderColor'] = "#AAB6FB";
-      // data['words']['words']['words_cv']['data']['datasets'][2]['pointBackgroundColor'] = "#AAB6FB";
-      // data['words']['words']['words_cv']['data']['datasets'][2]['pointBorderColor'] = "#AAB6FB";
       data['words']['words']['words_cv']['data']['datasets'][2]['hidden'] = true;
       // 軸設定変更
       data['words']['words']['words_cv']['options']['scales']['yAxes'].push({"id": "y_3", "display": false, 'type': "linear"});
@@ -94,13 +85,10 @@ var words_graph_data = 0;
     // ENTITIES
     {
       // trend
-      // $('.trend').eq(mode).html(data['entities']['trend'].join(''));
       html = ""
       for (var i = 0; i < data['entities']['trend'].length; i++) {
       html += "<div>" + data['entities']['trend'][i] + "</div>";
       }
-      // html = $('.trend').eq(mode).html();
-      // html = html.replace('style="position: static; visibility: visible; display: block; transform: translateY(0px); max-width: 100%; width: 500px; min-width: 220px; margin-top: 10px; margin-bottom: 10px;"', '');
       $('.trend').eq(mode).html(html);
 
       // url
@@ -267,14 +255,11 @@ var words_graph_data = 0;
 // tab_graph_controller
 {
   UIkit.util.on('.main_tab', 'beforeshow', function(e){
-    // console.log($(this).html());
   });
 }
 
 // Flatpickr
 {
-  // let today = new Date();
-  //today.setDate(today.getDate() - 2);
   let today = new Date(2020, 4, 19);
   // Flatpickerの読み込み
   let fp = flatpickr('.flatpickr', {
@@ -413,4 +398,5 @@ var words_graph_data = 0;
   });
 }
 
+// 注意事項表示
 UIkit.modal($('#readme')).show();
